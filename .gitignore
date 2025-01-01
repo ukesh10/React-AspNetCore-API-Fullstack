@@ -1,0 +1,64 @@
+# ASP.NET Core Specific
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Configuration and Sensitive Files
+appsettings*.json
+!appsettings.Development.json  # Include this for local development, if needed
+.env
+
+# Logs
+*.log
+Logs/
+
+# Dependency Directories
+node_modules/
+packages/
+.vscode/
+.idea/
+.vs/
+.env
+
+# Build Directories
+**/dist/
+**/build/
+wwwroot/
+
+# React Specific
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json  # If using npm
+yarn.lock  # If using Yarn
+
+# IDEs and Editors
+.DS_Store
+Thumbs.db
+*.swp
+*.sln
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/settings.json
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Coverage Reports
+coverage/
+*.coverlet.*
+*.coverage*
+
+# Environment Files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
