@@ -1,4 +1,4 @@
-import { Product } from "../../app/models/product";
+import { Product } from "../../models/product";
 import ProductCard from "./ProductCard";
 
 interface Props {
