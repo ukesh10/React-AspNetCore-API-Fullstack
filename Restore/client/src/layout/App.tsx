@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 function App() {
 
   return (
-    <div className="bg-body-secondary">
+    <div className="">
       <Header />
       <Outlet />
     </div>

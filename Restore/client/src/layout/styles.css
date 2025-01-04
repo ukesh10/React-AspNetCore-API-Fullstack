@@ -4,3 +4,6 @@
 .text-purple{
     color: #6a0dad !important;
 }
+.table .table-bg{
+  background-color: red !important;
+}

@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { BsCart } from "react-icons/bs";
 
 // Mid and Right Links for the Navbar
 const midLinks = [
@@ -31,7 +32,7 @@ export default function Header() {
         <Link className="navbar-brand fw-bold fs-4" to="/">
           Re-Store
         </Link>
-
+        
         {/* Navbar Toggler for small screens */}
         <button
           className="navbar-toggler"
@@ -39,7 +40,7 @@ export default function Header() {
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
-          aria-expanded={isNavbarOpen ? 'true' : 'false'}
+          aria-expanded={isNavbarOpen ? "true" : "false"}
           aria-label="Toggle navigation"
           onClick={toggleNavbar}
         >
@@ -47,7 +48,10 @@ export default function Header() {
         </button>
 
         {/* Collapsing Navbar Links */}
-        <div className={`collapse navbar-collapse ${isNavbarOpen ? 'show' : ''}`} id="navbarSupportedContent">
+        <div
+          className={`collapse navbar-collapse ${isNavbarOpen ? "show" : ""}`}
+          id="navbarSupportedContent"
+        >
           {/* Mid Links */}
           <ul className="navbar-nav me-auto mx-auto mb-lg-0">
             {midLinks.map((link) => (
@@ -65,14 +69,21 @@ export default function Header() {
           </ul>
 
           {/* Right Links */}
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 position-relative">
+            <li className="nav-item me-3">
+              <Link
+                className="nav-link text-white"
+                to="/cart"
+                onClick={closeNavbar}
+              >
+                <BsCart size={18} /> <span className="badge position-absolute translate-middle bg-purple text-white rounded-circle">4</span>
+              </Link>
+            </li>
             {rightLinks.map((link) => (
               <li className="nav-item" key={link.title}>
                 <Link
                   className="nav-link active text-white"
                   to={link.path}
-                  aria-current="page"
-                  onClick={closeNavbar}
                 >
                   {link.title.toUpperCase()}
                 </Link>

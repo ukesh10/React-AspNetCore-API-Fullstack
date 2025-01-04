@@ -1,9 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { Product } from "../../models/product";
 
 interface Props {
   product: Product;
 }
 export default function ProductCard({ product }: Props) {
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    navigate(`/product/${product.id}`);
+  };
   return (
     <div className="card shadow-sm">
       <div className="card-heading card-body d-flex align-items-center">
@@ -42,7 +48,7 @@ export default function ProductCard({ product }: Props) {
           <button className="btn btn-outline-primary flex-shrink-0">
             ADD TO CART
           </button>
-          <button className="btn btn-outline-secondary flex-shrink-0">
+          <button className="btn btn-outline-secondary flex-shrink-0" onClick={handleViewClick}>
             VIEW
           </button>
         </div>
