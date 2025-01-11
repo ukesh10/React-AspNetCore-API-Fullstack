@@ -1,27 +1,36 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../models/product";
+import agent from "../../api/agent";
+import NotFound from "../../errors/NotFound";
+import LoadingComponent from "../../layout/LoadingComponent";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [Loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://localhost:7284/api/Products/${id}`)
+  //     .then((res) => setProduct(res.data))
+  //     .catch((err) => console.log(err))
+  //     .finally(() => setLoading(false));
+  // }, [id]);
+
   useEffect(() => {
-    axios
-      .get(`https://localhost:7284/api/Products/${id}`)
-      .then((res) => setProduct(res.data))
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
-  }, [id]);
+    id && agent.Catalog.details(parseInt(id))
+    .then(response => setProduct(response))
+    .catch(error => console.log(error))
+    .finally(() => setLoading(false));
+  })
 
   if (Loading) {
-    return <div className="container">Loading...</div>;
+    return <LoadingComponent message="Loading product" />
   }
 
   if (!product) {
-    return <div className="container">Product not found.</div>;
+    return <NotFound />
   }
 
   return (
