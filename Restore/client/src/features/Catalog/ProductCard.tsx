@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Product } from "../../models/product";
+import agent from "../../api/agent";
 
 interface Props {
   product: Product;
@@ -10,6 +11,11 @@ export default function ProductCard({ product }: Props) {
   const handleViewClick = () => {
     navigate(`/product/${product.id}`);
   };
+
+  function handleAddItem(productId: number){
+    agent.Basket.addItem(productId);
+  }
+
   return (
     <div className="card shadow-sm">
       <div className="card-heading card-body d-flex align-items-center">
@@ -45,7 +51,7 @@ export default function ProductCard({ product }: Props) {
         </p> */}
       </div>
       <div className="btns card-body d-flex align-items-start flex-wrap justify-content-start gap-2">
-          <button className="btn btn-outline-primary flex-shrink-0">
+          <button className="btn btn-outline-primary flex-shrink-0" onClick={() => handleAddItem(product.id)}>
             ADD TO CART
           </button>
           <button className="btn btn-outline-secondary flex-shrink-0" onClick={handleViewClick}>

@@ -73,7 +73,7 @@ export default function Header() {
             <li className="nav-item me-3">
               <Link
                 className="nav-link text-white"
-                to="/cart"
+                to="/basket"
                 onClick={closeNavbar}
               >
                 <BsCart size={18} /> <span className="badge position-absolute translate-middle bg-purple text-white rounded-circle">4</span>
