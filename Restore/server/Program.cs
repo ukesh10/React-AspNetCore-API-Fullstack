@@ -31,10 +31,10 @@ app.UseHttpsRedirection();
 
 app.UseCors(opt =>
 {
-    opt.AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials()
-    .WithOrigins("http://localhost:3000", "http://localhost:3001");
+    opt.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:7284", "https://localhost:7284")
+       .AllowAnyHeader()
+       .AllowAnyMethod()
+       .AllowCredentials();
 });
 
 app.UseAuthorization();

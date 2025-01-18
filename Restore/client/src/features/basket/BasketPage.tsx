@@ -1,21 +1,8 @@
-import { useEffect, useState } from "react";
-import agent from "../../api/agent";
-import LoadingComponent from "../../layout/LoadingComponent";
-import { Basket } from "../../models/basket";
 import { MdDelete } from "react-icons/md";
+import { useStoreContext } from "../../context/StoreContext";
 
 export default function BasketPage() {
-  const [loading, setLoading] = useState(true);
-  const [basket, setBasket] = useState<Basket | null>(null);
-
-  useEffect(() => {
-    agent.Basket.get()
-      .then((basket) => setBasket(basket))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <LoadingComponent message="Loading basket..." />;
+  const { basket } = useStoreContext();
 
   if (!basket) return <p className="container mt-4">Your basket is empty</p>;
   return (
@@ -31,18 +18,25 @@ export default function BasketPage() {
           </tr>
         </thead>
         <tbody>
-        {basket.basketItems.map(item => (
+          {basket.basketItems.map((item) => (
             <tr key={item.productId}>
-            <td>{item.name}</td>
-            <td>${item.price.toFixed(2)}</td>
-            <td>${item.quantity}</td>
-            <td>${(item.price * item.quantity).toFixed(2)}</td>
-            <td>
-              <button className="btn">
-                <MdDelete />
-              </button>
-            </td>
-          </tr>
+              <td>
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  style={{ height: 50, marginRight: 20 }}
+                />{" "}
+                <span>{item.name}</span>
+              </td>
+              <td>${item.price.toFixed(2)}</td>
+              <td>${item.quantity}</td>
+              <td>${(item.price * item.quantity).toFixed(2)}</td>
+              <td>
+                <button className="btn">
+                  <MdDelete />
+                </button>
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>

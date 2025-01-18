@@ -1,7 +1,6 @@
 ﻿using API.Data;
 using API.DTOs;
 using API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +15,8 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet(Name = "GetBasket")]
+        //[HttpGet(Name = "GetBasket")]
+        [HttpGet]
         public async Task<ActionResult<BasketDto>> GetBasket()
         {
             var basket = await RetrieveBasket();
@@ -37,7 +37,8 @@ namespace API.Controllers
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));
+            //if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));
+            if (result) return StatusCode(201);
 
             return BadRequest(new ProblemDetails { Title = "Problem saving item to the basket" });
         }
@@ -55,12 +56,10 @@ namespace API.Controllers
 
         private async Task<Basket?> RetrieveBasket()
         {
-            var buyerId = Request.Cookies["buyerId"];
-            if (string.IsNullOrEmpty(buyerId)) return null;
             return await _context.Baskets
                 .Include(b => b.BasketItems)
                 .ThenInclude(p => p.Product)
-                .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
+                 .FirstOrDefaultAsync(x => x.BuyerId == Request.Cookies["buyerId"]); ;
         }
 
         private Basket CreateBasket()

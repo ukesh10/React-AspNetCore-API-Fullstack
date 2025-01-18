@@ -1,11 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { Product } from "../../models/product";
 import agent from "../../api/agent";
+import { useStoreContext } from "../../context/StoreContext";
+import { useState } from "react";
 
 interface Props {
   product: Product;
 }
 export default function ProductCard({ product }: Props) {
+  const {setBasket} = useStoreContext();
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleViewClick = () => {
@@ -13,7 +18,11 @@ export default function ProductCard({ product }: Props) {
   };
 
   function handleAddItem(productId: number){
-    agent.Basket.addItem(productId);
+    setLoading(true)
+    agent.Basket.addItem(productId)
+    .then(basket => setBasket(basket))
+    .catch(error => console.log(error))
+    .finally(() => setLoading(false))
   }
 
   return (

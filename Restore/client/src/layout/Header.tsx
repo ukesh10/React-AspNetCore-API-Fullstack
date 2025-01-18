@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BsCart } from "react-icons/bs";
+import { useStoreContext } from "../context/StoreContext";
 
 // Mid and Right Links for the Navbar
 const midLinks = [
@@ -15,6 +16,7 @@ const rightLinks = [
 ];
 
 export default function Header() {
+  const {basket} = useStoreContext();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
   const toggleNavbar = () => {
@@ -24,6 +26,8 @@ export default function Header() {
   const closeNavbar = () => {
     setIsNavbarOpen(false);
   };
+
+const itemCount = basket?.basketItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
@@ -76,7 +80,7 @@ export default function Header() {
                 to="/basket"
                 onClick={closeNavbar}
               >
-                <BsCart size={18} /> <span className="badge position-absolute translate-middle bg-purple text-white rounded-circle">4</span>
+                <BsCart size={18} /> <span className="badge position-absolute translate-middle bg-purple text-white rounded-circle">{itemCount}</span>
               </Link>
             </li>
             {rightLinks.map((link) => (
