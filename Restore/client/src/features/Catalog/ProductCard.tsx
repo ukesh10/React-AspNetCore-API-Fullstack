@@ -3,6 +3,7 @@ import { Product } from "../../models/product";
 import agent from "../../api/agent";
 import { useStoreContext } from "../../context/StoreContext";
 import { useState } from "react";
+import { currencyFormat } from "../../util/util";
 
 interface Props {
   product: Product;
@@ -44,13 +45,13 @@ export default function ProductCard({ product }: Props) {
         </p>
       </div>
       <img
-        src="https://images.unsplash.com/photo-1735689978278-c3400952ddda?q=80&w=1856&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        src={product.imageUrl}
         className="img-fluid rounded-sm"
         alt={product.name}
       ></img>
       <div className="card-body">
         <h5 className="card-title text-purple">
-          ${(product.price / 100).toFixed(2)}
+          ${currencyFormat(product.price)}
         </h5>
         <h6 className="card-subtitle text-body-secondary">
           {product.brand} / {product.type}

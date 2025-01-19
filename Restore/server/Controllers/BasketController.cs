@@ -15,8 +15,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        //[HttpGet(Name = "GetBasket")]
-        [HttpGet]
+        [HttpGet(Name = "GetBasket")]
         public async Task<ActionResult<BasketDto>> GetBasket()
         {
             var basket = await RetrieveBasket();
@@ -37,8 +36,7 @@ namespace API.Controllers
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            //if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));
-            if (result) return StatusCode(201);
+            if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));
 
             return BadRequest(new ProblemDetails { Title = "Problem saving item to the basket" });
         }
@@ -56,10 +54,12 @@ namespace API.Controllers
 
         private async Task<Basket?> RetrieveBasket()
         {
+            var buyerId = Request.Cookies["buyerId"];
+            if (buyerId == null) buyerId = "16275534-0bdf-4cad-8d6a-618ccc76f442";
             return await _context.Baskets
                 .Include(b => b.BasketItems)
                 .ThenInclude(p => p.Product)
-                 .FirstOrDefaultAsync(x => x.BuyerId == Request.Cookies["buyerId"]); ;
+                 .FirstOrDefaultAsync(x => x.BuyerId == buyerId); ;
         }
 
         private Basket CreateBasket()
@@ -69,8 +69,6 @@ namespace API.Controllers
             {
                 IsEssential = true,
                 Expires = DateTime.Now.AddDays(30),
-                SameSite = SameSiteMode.None,
-                Secure = false
             };
 
             Response.Cookies.Append("buyerId", buyerId, cookieOptions);
