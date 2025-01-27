@@ -8,7 +8,7 @@
 
         public void AddBasketItem(Product product, int quantity)
         {
-            if (BasketItems.All(basketItem =>  basketItem.Id != product.Id))
+            if (BasketItems.All(basketItem =>  basketItem.ProductId != product.Id))
             {
                 BasketItems.Add(new BasketItem { Product = product, Quantity = quantity });
             }

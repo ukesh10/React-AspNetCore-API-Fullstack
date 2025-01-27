@@ -33,6 +33,7 @@ export default function BasketPage() {
   }
 
   if (!basket) return <p className="container mt-4">Your basket is empty</p>;
+  
   return (
     <div className="container mt-4">
       <table className="table">
@@ -65,7 +66,7 @@ export default function BasketPage() {
                       color="darkRed"
                     />
                   </button>{" "}
-                  {item.quantity}
+                  {item.quantity}                 
                   <button className="btn">
                     <LuPlus
                       onClick={() => handleAddItem(item.productId)}

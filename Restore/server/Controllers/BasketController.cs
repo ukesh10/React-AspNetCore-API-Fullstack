@@ -35,12 +35,12 @@ namespace API.Controllers
             basket.AddBasketItem(product, quantity);
 
             var result = await _context.SaveChangesAsync() > 0;
-
-            if (result) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));
+            var basketDto = MapBasketToDto(basket);
+            if (result) return CreatedAtRoute("GetBasket", basketDto);
 
             return BadRequest(new ProblemDetails { Title = "Problem saving item to the basket" });
         }
-
+        
         [HttpDelete]
         public async Task<ActionResult> RemoveBasketItem(int productId, int quantity)
         {
@@ -55,7 +55,7 @@ namespace API.Controllers
         private async Task<Basket?> RetrieveBasket()
         {
             var buyerId = Request.Cookies["buyerId"];
-            if (buyerId == null) buyerId = "16275534-0bdf-4cad-8d6a-618ccc76f442";
+            //if (buyerId == null) buyerId = "16275534-0bdf-4cad-8d6a-618ccc76f442";
             return await _context.Baskets
                 .Include(b => b.BasketItems)
                 .ThenInclude(p => p.Product)
@@ -69,6 +69,7 @@ namespace API.Controllers
             {
                 IsEssential = true,
                 Expires = DateTime.Now.AddDays(30),
+                SameSite = SameSiteMode.Unspecified
             };
 
             Response.Cookies.Append("buyerId", buyerId, cookieOptions);
@@ -90,7 +91,8 @@ namespace API.Controllers
                     Price = item.Product.Price,
                     ImageUrl = item.Product.ImageUrl,
                     Brand = item.Product.Brand,
-                    Type = item.Product.Type
+                    Type = item.Product.Type,
+                    Quantity = item.Quantity
                 }).ToList()
             };
         }
